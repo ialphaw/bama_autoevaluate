@@ -56,4 +56,3 @@ Contributions to this project are welcome. Please fork the repository and submit
 ---
 
 For more information, contact the project maintainer at [Your Email/Contact Information].
-
