@@ -1,10 +1,10 @@
+from django.http import JsonResponse
 from django.shortcuts import render
+
 from core.helpers import predict_car_price
 
 
 def price_prediction_view(request):
-    predicted_price = None
-    formatted_price = None
     if request.method == "POST":
         brand = request.POST.get("brand")
         model = request.POST.get("model")
@@ -19,9 +19,11 @@ def price_prediction_view(request):
             "color_body": color_body,
             "year": year,
         }
-        predicted_price = predict_car_price(brand, model, user_car)
 
-        # Format the predicted price
+        predicted_price = predict_car_price(brand, model, user_car)
         formatted_price = f"{predicted_price:,.0f} million tomans"
 
-    return render(request, "predict_price.html", {"predicted_price": formatted_price})
+        return JsonResponse({"predicted_price": formatted_price})
+    else:
+        # Handle non-POST requests here
+        return render(request, "predict_price.html")

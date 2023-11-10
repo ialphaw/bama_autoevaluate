@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +12,26 @@
             text-align: center;
             padding: 50px;
         }
+
         .container {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             display: inline-block;
         }
+
         form {
             margin-top: 20px;
         }
-        input, select {
+
+        input,
+        select {
             padding: 10px;
             margin: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
             padding: 10px 20px;
             background-color: #007bff;
@@ -34,30 +40,43 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .result {
             margin-top: 20px;
             font-size: 20px;
             color: #333;
         }
+
         .loader {
-            border: 5px solid #f3f3f3; /* Light grey */
-            border-top: 5px solid #3498db; /* Blue */
+            border: 5px solid #f3f3f3;
+            /* Light grey */
+            border-top: 5px solid #3498db;
+            /* Blue */
             border-radius: 50%;
             width: 50px;
             height: 50px;
             animation: spin 2s linear infinite;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
             margin: auto;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Car Price Prediction</h1>
@@ -76,18 +95,28 @@
     </div>
 
     <script>
-        document.getElementById('predictionForm').onsubmit = function(event) {
+        document.getElementById('predictionForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent form submission
+            const formData = new FormData(this); // Gather form data
+            const xhr = new XMLHttpRequest(); // Create new AJAX request
+
+            xhr.open('POST', '/', true); // Set the request method and endpoint URL
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}'); // Set CSRF token for Django
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('predictedPrice').textContent = response.predicted_price; // Update result with the formatted price
+                    document.getElementById('loader').style.display = 'none'; // Hide loader
+                    document.getElementById('result').style.display = 'block'; // Show result
+                }
+            };
+
             document.getElementById('loader').style.display = 'block'; // Show loader
             document.getElementById('result').style.display = 'none'; // Hide result
 
-            // Simulate a delay for prediction (replace this with your actual prediction logic)
-            setTimeout(function() {
-                document.getElementById('loader').style.display = 'none'; // Hide loader
-                document.getElementById('result').style.display = 'block'; // Show result
-                document.getElementById('predictedPrice').textContent = '452,742,465.54 million tomans'; // Update result
-            }, 3000); // 3 seconds delay
-        }
+            xhr.send(formData); // Send form data to server
+        });
     </script>
 </body>
+
 </html>
