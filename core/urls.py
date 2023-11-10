@@ -22,5 +22,5 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("predict-price/", views.price_prediction_view, name="predict_price"),
+    path("", views.price_prediction_view, name="predict_price"),
 ]
