@@ -49,10 +49,6 @@ python manage.py runserver
 
 Contributions to this project are welcome. Please fork the repository and submit a pull request with your changes.
 
-## License
-
-[Specify the license here or state that it's unlicensed]
-
 ---
 
-For more information, contact the project maintainer at [Your Email/Contact Information].
+For more information, contact the project maintainer at amirabbas.vaziri@gmail.com
